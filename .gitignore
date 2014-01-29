@@ -1,0 +1,13 @@
+*.csv
+*.pid
+*.pyc
+*.pylint
+*.rdb
+*.swp
+*.sh
+.env
+build
+log
+setting.py
+venv
+docs/_build/
