@@ -1,0 +1,6 @@
+# -*- coding: utf-8 -*-
+
+auth_id = ''
+auth_token = ''
+msg_from = '+'
+msg_to = '+'
