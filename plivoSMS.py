@@ -17,19 +17,20 @@ class plivo(object):
         headers = {'content-type': 'application/json'}
         if method == 'POST':
             return requests.post(endpoint, data=json.dumps(data),
-                    headers=headers, auth=(self.auth_id, self.auth_token)
+                    headers=headers,
+                    auth=(self.auth_id, self.auth_token)).json()
         elif method == 'GET':
             return requests.get(endpoint, params=json.dumps(data),
-                    headers=headers, auth=(self.auth_id, self.auth_token)
+                    headers=headers,
+                    auth=(self.auth_id, self.auth_token)).json()
         else:
             return {'error': 'No method.'}
 
     def send_sms(self, data):
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
-        result = requests.post(endpoint, data=json.dumps(data), headers=headers,
-                               auth=(self.auth_id, self.auth_token))
-        return result.json()
+        result = self._requests('POST', endpoint, data)
+        return result
 
 if __name__ == '__main__':
     text = u'這是一封測試簡訊 This a test SMS.'*2
