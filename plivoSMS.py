@@ -13,7 +13,7 @@ class plivo(object):
         self.auth_token = auth_token
         self.api_url = os.path.join(api_url, api_version)
 
-    def _requests(self, method, endpoint, data, *args, **kwargs):
+    def _requests(self, method, endpoint, data={}, *args, **kwargs):
         headers = {'content-type': 'application/json'}
         if method == 'POST':
             return requests.post(endpoint, data=json.dumps(data),
@@ -32,12 +32,19 @@ class plivo(object):
         result = self._requests('POST', endpoint, data)
         return result
 
+    def get_account(self):
+        endpoint = os.path.join(self.api_url,
+                                'Account/%s' % setting.auth_id)
+        result = self._requests('GET', endpoint)
+        return result
+
 if __name__ == '__main__':
-    text = u'這是一封測試簡訊 This a test SMS.'*2
-    data = {
-            'src': setting.msg_from,
-            'dst': setting.msg_to,
-            'text': text + str(len(text)),
-           }
+    #text = u'這是一封測試簡訊 This a test SMS.'*2
+    #data = {
+    #        'src': setting.msg_from,
+    #        'dst': setting.msg_to,
+    #        'text': text + str(len(text)),
+    #       }
     plivo_tools = plivo(setting.auth_id, setting.auth_token)
-    pprint(plivo_tools.send_sms(data))
+    #pprint(plivo_tools.send_sms(data))
+    pprint(plivo_tools.get_account())
