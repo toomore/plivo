@@ -33,6 +33,15 @@ class plivo(object):
         result = self._requests('POST', endpoint, data)
         return result
 
+    def get_sms(self, message_uuid=None):
+        endpoint = os.path.join(self.api_url,
+                                'Account/%s/Message/' % setting.auth_id)
+        if message_uuid:
+            endpoint = os.path.join(endpoint, message_uuid)
+
+        result = self._requests('GET', endpoint)
+        return result
+
     def get_account(self):
         endpoint = os.path.join(self.api_url,
                                 'Account/%s' % setting.auth_id)
@@ -49,8 +58,10 @@ if __name__ == '__main__':
     #       }
     plivo_tools = plivo(setting.auth_id, setting.auth_token)
     #pprint(plivo_tools.send_sms(data))
-    t1 = datetime.now()
-    pprint(plivo_tools.get_account())
-    print datetime.now() - t1
-    pprint(plivo_tools.get_account())
-    print datetime.now() - t1
+    #t1 = datetime.now()
+    #pprint(plivo_tools.get_account())
+    #print datetime.now() - t1
+    #pprint(plivo_tools.get_account())
+    #print datetime.now() - t1
+    pprint(plivo_tools.get_sms())
+    pprint(plivo_tools.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
