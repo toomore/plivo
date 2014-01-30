@@ -34,6 +34,12 @@ class plivo(object):
         result = self._requests('POST', endpoint, data)
         return result
 
+    def make_call(self, data):
+        endpoint = os.path.join(self.api_url,
+                                'Account/%s/Call/' % setting.auth_id)
+        result = self._requests('POST', endpoint, data)
+        return result
+
     def get_sms(self, message_uuid=None):
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
@@ -57,11 +63,25 @@ if __name__ == '__main__':
     #        'text': text + str(len(text)),
     #       }
     plivo_tools = plivo(setting.auth_id, setting.auth_token)
+
+    # ----- send sms ----- #
     #pprint(plivo_tools.send_sms(data))
     #t1 = datetime.now()
     #pprint(plivo_tools.get_account())
     #print datetime.now() - t1
     #pprint(plivo_tools.get_account())
     #print datetime.now() - t1
-    pprint(plivo_tools.get_sms())
-    pprint(plivo_tools.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
+
+    # ----- get sms ----- #
+    #pprint(plivo_tools.get_sms())
+    #pprint(plivo_tools.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
+
+    # ----- make call ----- #
+    #data = {
+    #        'from': setting.msg_from,
+    #        'to': setting.msg_to,
+    #        'answer_url': 'https://s3.amazonaws.com/plivosamplexml/speak_url.xml',
+    #        'answer_method': 'GET',
+    #       }
+    #make_call = plivo_tools.make_call(data)
+    #pprint(make_call) # request_uuid
