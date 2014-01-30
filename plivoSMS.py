@@ -13,8 +13,18 @@ class plivo(object):
         self.auth_token = auth_token
         self.api_url = os.path.join(api_url, api_version)
 
-    def send_sms(data):
+    def _requests(self, method, endpoint, data, *args, **kwargs):
         headers = {'content-type': 'application/json'}
+        if method == 'POST':
+            return requests.post(endpoint, data=json.dumps(data),
+                    headers=headers, auth=(self.auth_id, self.auth_token)
+        elif method == 'GET':
+            return requests.get(endpoint, params=json.dumps(data),
+                    headers=headers, auth=(self.auth_id, self.auth_token)
+        else:
+            return {'error': 'No method.'}
+
+    def send_sms(self, data):
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
         result = requests.post(endpoint, data=json.dumps(data), headers=headers,
@@ -28,4 +38,5 @@ if __name__ == '__main__':
             'dst': setting.msg_to,
             'text': text + str(len(text)),
            }
-    pprint(send_sms(data))
+    plivo_tools = plivo(setting.auth_id, setting.auth_token)
+    pprint(plivo_tools.send_sms(data))
