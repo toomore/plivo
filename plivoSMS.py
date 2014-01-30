@@ -14,15 +14,16 @@ class plivo(object):
         self.api_url = os.path.join(api_url, api_version)
 
     def _requests(self, method, endpoint, data={}, *args, **kwargs):
-        headers = {'content-type': 'application/json'}
+        requests_with_session = requests.Session()
+        requests_with_session.auth = (self.auth_id, self.auth_token)
+        requests_with_session.headers = {'content-type': 'application/json',
+                                         'Connection': 'Keep-Alive',}
         if method == 'POST':
-            return requests.post(endpoint, data=json.dumps(data),
-                    headers=headers,
-                    auth=(self.auth_id, self.auth_token)).json()
+            return requests_with_session.post(endpoint,
+                                              data=json.dumps(data)).json()
         elif method == 'GET':
-            return requests.get(endpoint, params=json.dumps(data),
-                    headers=headers,
-                    auth=(self.auth_id, self.auth_token)).json()
+            return requests_with_session.get(endpoint,
+                                             params=json.dumps(data)).json()
         else:
             return {'error': 'No method.'}
 
@@ -39,6 +40,7 @@ class plivo(object):
         return result
 
 if __name__ == '__main__':
+    from datetime import datetime
     #text = u'這是一封測試簡訊 This a test SMS.'*2
     #data = {
     #        'src': setting.msg_from,
@@ -47,4 +49,8 @@ if __name__ == '__main__':
     #       }
     plivo_tools = plivo(setting.auth_id, setting.auth_token)
     #pprint(plivo_tools.send_sms(data))
+    t1 = datetime.now()
     pprint(plivo_tools.get_account())
+    print datetime.now() - t1
+    pprint(plivo_tools.get_account())
+    print datetime.now() - t1
