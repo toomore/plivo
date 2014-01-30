@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
-import pprint
 import requests
 import setting
+from pprint import pprint
 
 
 def send_sms(data):
@@ -13,10 +13,10 @@ def send_sms(data):
     return result.json()
 
 if __name__ == '__main__':
-    text = u'這是一封測試簡訊 This a test SMS.'
+    text = u'這是一封測試簡訊 This a test SMS.'*2
     data = {
             'src': setting.msg_from,
             'dst': setting.msg_to,
-            'text': text*2 + str(len(text*2)),
+            'text': text + str(len(text)),
            }
     pprint(send_sms(data))
