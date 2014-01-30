@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import json
+import ujson as json
 import os
 import requests
 import setting
@@ -19,13 +19,14 @@ class plivo(object):
         requests_with_session.headers = {'content-type': 'application/json',
                                          'Connection': 'Keep-Alive',}
         if method == 'POST':
-            return requests_with_session.post(endpoint,
-                                              data=json.dumps(data)).json()
+            result = requests_with_session.post(endpoint, data=json.dumps(data))
         elif method == 'GET':
-            return requests_with_session.get(endpoint,
-                                             params=json.dumps(data)).json()
+            result = requests_with_session.get(endpoint,
+                                               params=json.dumps(data))
         else:
             return {'error': 'No method.'}
+
+        return json.loads(result.text)
 
     def send_sms(self, data):
         endpoint = os.path.join(self.api_url,
@@ -43,8 +44,7 @@ class plivo(object):
         return result
 
     def get_account(self):
-        endpoint = os.path.join(self.api_url,
-                                'Account/%s' % setting.auth_id)
+        endpoint = os.path.join(self.api_url, 'Account/%s' % setting.auth_id)
         result = self._requests('GET', endpoint)
         return result
 
