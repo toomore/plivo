@@ -26,7 +26,10 @@ class plivo(object):
         else:
             return {'error': 'No method.'}
 
-        return json.loads(result.text)
+        if result.status_code == requests.codes.ok:
+            return json.loads(result.text)
+        else:
+            return {'error': 'requests error.'}
 
     def send_sms(self, data):
         endpoint = os.path.join(self.api_url,
