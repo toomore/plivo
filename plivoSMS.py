@@ -7,6 +7,13 @@ from pprint import pprint
 
 
 class plivo(object):
+    ''' plivo API
+
+        :param str auth_id: plivo auth_id
+        :param str auth_token: plivo auth_token
+        :param str api_version: plivo api version, default 'v1'
+        :param str api_url: plivo api url
+    '''
     def __init__(self, auth_id, auth_token, api_version='v1',
             api_url='https://api.plivo.com/'):
         self.auth_id = auth_id
