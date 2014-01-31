@@ -39,18 +39,33 @@ class plivo(object):
             return {'error': 'requests error.'}
 
     def send_sms(self, data):
+        ''' Send SMS
+            Ref: http://plivo.com/docs/api/message/
+
+            :rtype: dict
+        '''
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
     def make_call(self, data):
+        ''' Make a call
+            Ref: http://plivo.com/docs/api/call/
+
+            :rtype: dict
+        '''
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Call/' % setting.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
     def get_sms(self, message_uuid=None):
+        ''' Get SMS info.
+            Ref: http://plivo.com/docs/api/message/
+
+            :rtype: dict
+        '''
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
         if message_uuid:
@@ -60,6 +75,11 @@ class plivo(object):
         return result
 
     def get_account(self):
+        ''' Get Account info
+            Ref: http://plivo.com/docs/api/account/
+
+            :rtype: dict
+        '''
         endpoint = os.path.join(self.api_url, 'Account/%s' % setting.auth_id)
         result = self._requests('GET', endpoint)
         return result
