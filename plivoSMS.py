@@ -18,11 +18,11 @@ class plivo(object):
         requests_with_session.auth = (self.auth_id, self.auth_token)
         requests_with_session.headers = {'content-type': 'application/json',
                                          'Connection': 'Keep-Alive',}
+        data = json.dumps(data)
         if method == 'POST':
-            result = requests_with_session.post(endpoint, data=json.dumps(data))
+            result = requests_with_session.post(endpoint, data=data)
         elif method == 'GET':
-            result = requests_with_session.get(endpoint,
-                                               params=json.dumps(data))
+            result = requests_with_session.get(endpoint, params=data)
         else:
             return {'error': 'No method.'}
 
