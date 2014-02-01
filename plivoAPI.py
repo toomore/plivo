@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import ujson as json
 import os
 import requests
 import setting
+import ujson as json
 from pprint import pprint
 
 
