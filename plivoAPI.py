@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+''' plivo api '''
 import os
 import requests
 import setting
@@ -6,7 +7,7 @@ import ujson as json
 from pprint import pprint
 
 
-class plivo(object):
+class Plivo(object):
     ''' plivo API
 
         :param str auth_id: plivo auth_id
@@ -20,7 +21,8 @@ class plivo(object):
         self.auth_token = auth_token
         self.api_url = os.path.join(api_url, api_version)
 
-    def _requests(self, method, endpoint, data={}, *args, **kwargs):
+    def _requests(self, method, endpoint, data=None, *args, **kwargs):
+        ''' requests wraps '''
         requests_with_session = requests.Session()
         requests_with_session.auth = (self.auth_id, self.auth_token)
         requests_with_session.headers = {'content-type': 'application/json',
@@ -92,7 +94,7 @@ if __name__ == '__main__':
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
     #       }
-    plivo_tools = plivo(setting.auth_id, setting.auth_token)
+    plivo_tools = Plivo(setting.auth_id, setting.auth_token)
 
     # ----- send sms ----- #
     #pprint(plivo_tools.send_sms(data))
