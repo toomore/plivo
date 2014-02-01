@@ -4,7 +4,6 @@ import os
 import requests
 import setting
 import ujson as json
-from pprint import pprint
 
 
 class Plivo(object):
@@ -21,7 +20,7 @@ class Plivo(object):
         self.auth_token = auth_token
         self.api_url = os.path.join(api_url, api_version)
 
-    def _requests(self, method, endpoint, data=None, *args, **kwargs):
+    def _requests(self, method, endpoint, data=None):
         ''' requests wraps '''
         requests_with_session = requests.Session()
         requests_with_session.auth = (self.auth_id, self.auth_token)
@@ -87,7 +86,8 @@ class Plivo(object):
         return result
 
 if __name__ == '__main__':
-    from datetime import datetime
+    #from datetime import datetime
+    #from pprint import pprint
     #text = u'這是一封測試簡訊 This a test SMS.'*2
     #data = {
     #        'src': setting.msg_from,
