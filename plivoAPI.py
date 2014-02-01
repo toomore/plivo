@@ -94,26 +94,26 @@ if __name__ == '__main__':
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
     #       }
-    plivo_tools = Plivo(setting.auth_id, setting.auth_token)
+    PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token)
 
     # ----- send sms ----- #
-    #pprint(plivo_tools.send_sms(data))
+    #pprint(PILVO_TOOLS.send_sms(data))
     #t1 = datetime.now()
-    #pprint(plivo_tools.get_account())
+    #pprint(PILVO_TOOLS.get_account())
     #print datetime.now() - t1
-    #pprint(plivo_tools.get_account())
+    #pprint(PILVO_TOOLS.get_account())
     #print datetime.now() - t1
 
     # ----- get sms ----- #
-    #pprint(plivo_tools.get_sms())
-    #pprint(plivo_tools.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
+    #pprint(PILVO_TOOLS.get_sms())
+    #pprint(PILVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
 
     # ----- make call ----- #
     #data = {
-    #        'from': setting.msg_from,
-    #        'to': setting.msg_to,
-    #        'answer_url': 'https://s3.amazonaws.com/plivosamplexml/speak_url.xml',
-    #        'answer_method': 'GET',
-    #       }
-    #make_call = plivo_tools.make_call(data)
+    #    'from': setting.msg_from,
+    #    'to': setting.msg_to,
+    #    'answer_url': 'https://s3.amazonaws.com/plivosamplexml/speak_url.xml',
+    #    'answer_method': 'GET',
+    #   }
+    #make_call = PILVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
