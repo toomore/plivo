@@ -119,12 +119,13 @@ class Plivo(object):
 
 if __name__ == '__main__':
     #from datetime import datetime
-    #from pprint import pprint
+    from pprint import pprint
     #text = u'這是一封測試簡訊 This a test SMS.'*2
     #data = {
     #        'src': setting.msg_from,
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
+    #        'url': os.path.join(setting.callback_url, 'message'),
     #       }
     PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
             to_number=setting.msg_to, source=setting.msg_from)
@@ -149,6 +150,8 @@ if __name__ == '__main__':
     #data = {
     #    'from': setting.msg_from,
     #    'to': setting.msg_to,
+    #    'answer_url': setting.callback_url,
+    #    'answer_method': 'GET',
     #   }
     #make_call = PILVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
