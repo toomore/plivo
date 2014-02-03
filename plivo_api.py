@@ -15,10 +15,18 @@ class Plivo(object):
         :param str api_url: plivo api url
     '''
     def __init__(self, auth_id, auth_token, api_version='v1',
-            api_url='https://api.plivo.com/'):
+            api_url='https://api.plivo.com/', to_number=None):
         self.auth_id = auth_id
         self.auth_token = auth_token
         self.api_url = os.path.join(api_url, api_version)
+        if to_number:
+            assert isinstance(to_number, str)
+            to_number = to_number.strip()
+        self.to_number = to_number
+
+    def __repr__(self):
+        return 'Plivo api_url: %s, to_number: %s' % (
+                self.api_url, self.to_number)
 
     def _requests(self, method, endpoint, data=None):
         ''' requests wraps '''
@@ -34,10 +42,13 @@ class Plivo(object):
         else:
             return {'error': 'No method.'}
 
-        if result.status_code == requests.codes.ok:
+        #if result.status_code == requests.codes.ok:
+        #    return json.loads(result.text)
+        #else:
+        #    return {'error': 'requests error.',
+        #            'result': json.loads(result.text),
+        #            'code': result.status_code}
             return json.loads(result.text)
-        else:
-            return {'error': 'requests error.'}
 
     def send_sms(self, data):
         ''' Send SMS
@@ -45,6 +56,9 @@ class Plivo(object):
 
             :rtype: dict
         '''
+        if 'dst' not in data:
+            data['dst'] = self.to_number
+
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Message/' % setting.auth_id)
         result = self._requests('POST', endpoint, data)
@@ -56,6 +70,9 @@ class Plivo(object):
 
             :rtype: dict
         '''
+        if 'to' not in data:
+            data['to'] = self.to_number
+
         endpoint = os.path.join(self.api_url,
                                 'Account/%s/Call/' % setting.auth_id)
         result = self._requests('POST', endpoint, data)
@@ -94,10 +111,15 @@ if __name__ == '__main__':
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
     #       }
-    PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token)
+    PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
+            to_number=setting.msg_to)
+
+    print PILVO_TOOLS
 
     # ----- send sms ----- #
     #pprint(PILVO_TOOLS.send_sms(data))
+
+    # ----- Get Account info ----- #
     #t1 = datetime.now()
     #pprint(PILVO_TOOLS.get_account())
     #print datetime.now() - t1
@@ -112,8 +134,6 @@ if __name__ == '__main__':
     #data = {
     #    'from': setting.msg_from,
     #    'to': setting.msg_to,
-    #    'answer_url': 'https://s3.amazonaws.com/plivosamplexml/speak_url.xml',
-    #    'answer_method': 'GET',
     #   }
     #make_call = PILVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
