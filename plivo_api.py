@@ -13,6 +13,8 @@ class Plivo(object):
         :param str auth_token: plivo auth_token
         :param str api_version: plivo api version, default 'v1'
         :param str api_url: plivo api url
+        :param str to_number: default to number
+        :param str source: default from number
     '''
     def __init__(self, auth_id, auth_token, api_version='v1',
             api_url='https://api.plivo.com/', to_number=None, source=None):
