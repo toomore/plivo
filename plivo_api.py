@@ -152,6 +152,9 @@ if __name__ == '__main__':
     #    'to': setting.msg_to,
     #    'answer_url': setting.callback_url,
     #    'answer_method': 'GET',
+    #    'hangup_method': 'GET',
+    #    'fallback_method': 'GET',
+    #    'caller_name': 'TESTHEROKU',
     #   }
     #make_call = PILVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
