@@ -2,7 +2,6 @@
 ''' plivo api '''
 import os
 import requests
-import setting
 import ujson as json
 
 
@@ -73,7 +72,7 @@ class Plivo(object):
             data['src'] = self.source
 
         endpoint = os.path.join(self.api_url,
-                                'Account/%s/Message/' % setting.auth_id)
+                                'Account/%s/Message/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
@@ -89,7 +88,7 @@ class Plivo(object):
             data['from'] = self.source
 
         endpoint = os.path.join(self.api_url,
-                                'Account/%s/Call/' % setting.auth_id)
+                                'Account/%s/Call/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
@@ -100,7 +99,7 @@ class Plivo(object):
             :rtype: dict
         '''
         endpoint = os.path.join(self.api_url,
-                                'Account/%s/Message/' % setting.auth_id)
+                                'Account/%s/Message/' % self.auth_id)
         if message_uuid:
             endpoint = os.path.join(endpoint, message_uuid)
 
@@ -113,11 +112,12 @@ class Plivo(object):
 
             :rtype: dict
         '''
-        endpoint = os.path.join(self.api_url, 'Account/%s' % setting.auth_id)
+        endpoint = os.path.join(self.api_url, 'Account/%s' % self.auth_id)
         result = self._requests('GET', endpoint)
         return result
 
 if __name__ == '__main__':
+    import setting
     #from datetime import datetime
     from pprint import pprint
     #text = u'這是一封測試簡訊 This a test SMS.'*2
