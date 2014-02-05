@@ -2,5 +2,7 @@
 
 auth_id = ''
 auth_token = ''
-msg_from = '+'
-msg_to = '+'
+msg_from = '+'  #Phone number
+msg_to = '+'  #Phone number
+callback_url = ''  #URL
+callback_method = ''  #GET/POST
