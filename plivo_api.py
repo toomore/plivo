@@ -24,7 +24,7 @@ class Plivo(object):
             assert isinstance(to_number, str)
             to_number = self.format_number(to_number)
         if source:
-            assert isinstance(to_number, str)
+            assert isinstance(source, str)
             source = self.format_number(source)
 
         self.to_number = to_number
