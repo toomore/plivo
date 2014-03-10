@@ -3,6 +3,7 @@
 import os
 import requests
 import ujson as json
+from urlparse import urljoin
 
 
 class Plivo(object):
@@ -19,7 +20,7 @@ class Plivo(object):
             api_url='https://api.plivo.com/', to_number=None, source=None):
         self.auth_id = auth_id
         self.auth_token = auth_token
-        self.api_url = os.path.join(api_url, api_version)
+        self.api_url = urljoin(api_url, '%s/' % api_version)
         if to_number:
             assert isinstance(to_number, str)
             to_number = self.format_number(to_number)
@@ -71,8 +72,7 @@ class Plivo(object):
         if 'src' not in data:
             data['src'] = self.source
 
-        endpoint = os.path.join(self.api_url,
-                                'Account/%s/Message/' % self.auth_id)
+        endpoint = urljoin(self.api_url, 'Account/%s/Message/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
@@ -87,8 +87,7 @@ class Plivo(object):
         if 'from' not in data:
             data['from'] = self.source
 
-        endpoint = os.path.join(self.api_url,
-                                'Account/%s/Call/' % self.auth_id)
+        endpoint = urljoin(self.api_url, 'Account/%s/Call/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
         return result
 
@@ -98,10 +97,9 @@ class Plivo(object):
 
             :rtype: dict
         '''
-        endpoint = os.path.join(self.api_url,
-                                'Account/%s/Message/' % self.auth_id)
+        endpoint = urljoin(self.api_url, 'Account/%s/Message/' % self.auth_id)
         if message_uuid:
-            endpoint = os.path.join(endpoint, message_uuid)
+            endpoint = urljoin(endpoint, message_uuid)
 
         result = self._requests('GET', endpoint)
         return result
@@ -112,7 +110,7 @@ class Plivo(object):
 
             :rtype: dict
         '''
-        endpoint = os.path.join(self.api_url, 'Account/%s' % self.auth_id)
+        endpoint = urljoin(self.api_url, 'Account/%s' % self.auth_id)
         result = self._requests('GET', endpoint)
         return result
 
@@ -125,7 +123,7 @@ if __name__ == '__main__':
     #        'src': setting.msg_from,
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
-    #        'url': os.path.join(setting.callback_url, 'message'),
+    #        'url': urljoin(setting.callback_url, 'message'),
     #       }
     PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
             to_number=setting.msg_to, source=setting.msg_from)
