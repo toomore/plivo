@@ -33,7 +33,6 @@ class Plivo(object):
                 self._numbers_deque = deque(source)
 
         self.to_number = to_number
-        self.source = source
 
     def __repr__(self):
         return 'Plivo api_url: %s, to_number: %s' % (
