@@ -134,24 +134,24 @@ if __name__ == '__main__':
     #        'text': text + str(len(text)),
     #        'url': urljoin(setting.callback_url, 'message'),
     #       }
-    PILVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
+    PLIVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
             to_number=setting.msg_to, source=setting.msg_from)
 
-    print PILVO_TOOLS
+    print PLIVO_TOOLS
 
     # ----- send sms ----- #
-    #pprint(PILVO_TOOLS.send_sms(data))
+    #pprint(PLIVO_TOOLS.send_sms(data))
 
     # ----- Get Account info ----- #
     #t1 = datetime.now()
-    #pprint(PILVO_TOOLS.get_account())
+    #pprint(PLIVO_TOOLS.get_account())
     #print datetime.now() - t1
-    #pprint(PILVO_TOOLS.get_account())
+    #pprint(PLIVO_TOOLS.get_account())
     #print datetime.now() - t1
 
     # ----- get sms ----- #
-    #pprint(PILVO_TOOLS.get_sms())
-    #pprint(PILVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
+    #pprint(PLIVO_TOOLS.get_sms())
+    #pprint(PLIVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
 
     # ----- make call ----- #
     #data = {
@@ -163,5 +163,5 @@ if __name__ == '__main__':
     #    'fallback_method': 'GET',
     #    'caller_name': 'TESTHEROKU',
     #   }
-    #make_call = PILVO_TOOLS.make_call(data)
+    #make_call = PLIVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
