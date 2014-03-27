@@ -3,6 +3,7 @@
 import os
 import requests
 import ujson as json
+from collections import deque
 from urlparse import urljoin
 
 
@@ -25,8 +26,11 @@ class Plivo(object):
             assert isinstance(to_number, basestring)
             to_number = self.format_number(to_number)
         if source:
-            assert isinstance(source, basestring)
-            source = self.format_number(source)
+            if isinstance(source, basestring):
+                source = self.format_number(source)
+                self._numbers_deque = deque([source, ])
+            elif isinstance(source, list):
+                self._numbers_deque = deque(source)
 
         self.to_number = to_number
         self.source = source
@@ -34,6 +38,11 @@ class Plivo(object):
     def __repr__(self):
         return 'Plivo api_url: %s, to_number: %s' % (
                 self.api_url, self.to_number)
+
+    def get_numbers(self):
+        pick_one = self._numbers_deque[0]
+        self._numbers_deque.rotate(1)
+        return pick_one
 
     @staticmethod
     def format_number(number):
@@ -70,7 +79,7 @@ class Plivo(object):
         if 'dst' not in data:
             data['dst'] = self.to_number
         if 'src' not in data:
-            data['src'] = self.source
+            data['src'] = self.get_numbers()
 
         endpoint = urljoin(self.api_url, 'Account/%s/Message/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
@@ -85,7 +94,7 @@ class Plivo(object):
         if 'to' not in data:
             data['to'] = self.to_number
         if 'from' not in data:
-            data['from'] = self.source
+            data['from'] = self.get_numbers()
 
         endpoint = urljoin(self.api_url, 'Account/%s/Call/' % self.auth_id)
         result = self._requests('POST', endpoint, data)
