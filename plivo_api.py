@@ -22,10 +22,10 @@ class Plivo(object):
         self.auth_token = auth_token
         self.api_url = urljoin(api_url, '%s/' % api_version)
         if to_number:
-            assert isinstance(to_number, str)
+            assert isinstance(to_number, basestring)
             to_number = self.format_number(to_number)
         if source:
-            assert isinstance(source, str)
+            assert isinstance(source, basestring)
             source = self.format_number(source)
 
         self.to_number = to_number
