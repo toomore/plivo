@@ -35,8 +35,8 @@ class Plivo(object):
         self.to_number = to_number
 
     def __repr__(self):
-        return 'Plivo api_url: %s, to_number: %s' % (
-                self.api_url, self.to_number)
+        return '<Plivo api_url: %s, to_number: %s, source: %s>' % (
+                self.api_url, self.to_number, self._numbers_deque)
 
     def get_numbers(self):
         pick_one = self._numbers_deque[0]
