@@ -49,15 +49,15 @@ class Plivo(object):
 
     def _requests(self, method, endpoint, data=None):
         ''' requests wraps '''
-        requests_with_session = requests.Session()
-        requests_with_session.auth = (self.auth_id, self.auth_token)
-        requests_with_session.headers = {'content-type': 'application/json',
-                                         'Connection': 'Keep-Alive',}
+        auth = (self.auth_id, self.auth_token)
+        headers = {'content-type': 'application/json',
+                   'Connection': 'Keep-Alive',}
+
         data = json.dumps(data)
         if method == 'POST':
-            result = requests_with_session.post(endpoint, data=data)
+            result = requests.post(endpoint, data=data, auth=auth, headers=headers)
         elif method == 'GET':
-            result = requests_with_session.get(endpoint, params=data)
+            result = requests.get(endpoint, params=data, auth=auth, headers=headers)
         else:
             return {'error': 'No method.'}
 
@@ -106,6 +106,7 @@ class Plivo(object):
             :rtype: dict
         '''
         endpoint = urljoin(self.api_url, 'Account/%s/Message/' % self.auth_id)
+
         if message_uuid:
             endpoint = urljoin(endpoint, message_uuid)
 
