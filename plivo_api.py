@@ -3,6 +3,7 @@
 import os
 import requests
 import ujson as json
+from collections import Iterable
 from collections import deque
 from urlparse import urljoin
 
@@ -29,7 +30,7 @@ class Plivo(object):
             if isinstance(source, basestring):
                 source = self.format_number(source)
                 self._numbers_deque = deque([source, ])
-            elif isinstance(source, list):
+            elif isinstance(source, Iterable):
                 self._numbers_deque = deque(source)
 
         self.to_number = to_number
