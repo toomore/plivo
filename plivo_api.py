@@ -152,6 +152,7 @@ if __name__ == '__main__':
 
     # ----- get sms ----- #
     pprint(PLIVO_TOOLS.get_sms(params={'limit': 5}))
+    # /v1/Account/xxxxx/Message/?limit=20&%7B%22limit%22%3A5%7D=&offset=20
     #pprint(PLIVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
 
     # ----- make call ----- #
