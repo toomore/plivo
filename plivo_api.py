@@ -48,13 +48,15 @@ class Plivo(object):
     def format_number(number):
         return number.strip().replace('+', '')
 
-    def _requests(self, method, endpoint, data=None):
+    def _requests(self, method, endpoint, data=None, json_format=True):
         ''' requests wraps '''
         auth = (self.auth_id, self.auth_token)
-        headers = {'content-type': 'application/json',
-                   'Connection': 'Keep-Alive',}
+        headers = {'Connection': 'Keep-Alive'}
 
-        data = json.dumps(data)
+        if json_format:
+            headers.update({'content-type': 'application/json'})
+            data = json.dumps(data)
+
         if method == 'POST':
             result = requests.post(endpoint, data=data, auth=auth, headers=headers)
         elif method == 'GET':
@@ -111,7 +113,7 @@ class Plivo(object):
         if message_uuid:
             endpoint = urljoin(endpoint, message_uuid)
 
-        result = self._requests('GET', endpoint, params)
+        result = self._requests('GET', endpoint, params, False)
         return result
 
     def get_account(self):
