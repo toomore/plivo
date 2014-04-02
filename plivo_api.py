@@ -116,6 +116,18 @@ class Plivo(object):
         result = self._requests('GET', endpoint, params, False)
         return result
 
+    def get_all_sms(self, params=None):
+        ''' Get all SMS log data '''
+        log_data = self.get_sms(params=params)
+        go_next = True
+        while go_next:
+            if log_data['meta']['next']:
+                log_data = self._requests('GET', urljoin(self.api_url,
+                        log_data['meta']['next']))
+
+            if not log_data['meta']['next']:
+                go_next = False
+
     def get_account(self):
         ''' Get Account info
             Ref: http://plivo.com/docs/api/account/
@@ -153,9 +165,12 @@ if __name__ == '__main__':
     #print datetime.now() - t1
 
     # ----- get sms ----- #
-    pprint(PLIVO_TOOLS.get_sms(params={'limit': 5}))
+    #pprint(PLIVO_TOOLS.get_sms(params={'limit': 5}))
     # /v1/Account/xxxxx/Message/?limit=20&%7B%22limit%22%3A5%7D=&offset=20
     #pprint(PLIVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
+
+    # ----- get all sms ----- #
+    pprint(PLIVO_TOOLS.get_all_sms())
 
     # ----- make call ----- #
     #data = {
