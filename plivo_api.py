@@ -124,9 +124,10 @@ class Plivo(object):
         while log_data['meta']['next']:
             log_data = self._requests('GET', urljoin(self.api_url,
                     log_data['meta']['next']))
-            result.extend(log_data['objects'])
+            #result.extend(log_data['objects'])
+            yield log_data['objects']
 
-        return result
+        #return result
 
     def get_account(self):
         ''' Get Account info
@@ -171,8 +172,7 @@ if __name__ == '__main__':
 
     # ----- get all sms ----- #
     all_sms = PLIVO_TOOLS.get_all_sms()
-    pprint(all_sms)
-    print len(all_sms)
+    print all_sms.next()
 
     # ----- make call ----- #
     #data = {
