@@ -119,15 +119,12 @@ class Plivo(object):
     def get_all_sms(self, params=None):
         ''' Get all SMS log data '''
         log_data = self.get_sms(params=params)
-        result = log_data['objects']
+        yield log_data['objects']
 
         while log_data['meta']['next']:
             log_data = self._requests('GET', urljoin(self.api_url,
                     log_data['meta']['next']))
-            #result.extend(log_data['objects'])
             yield log_data['objects']
-
-        #return result
 
     def get_account(self):
         ''' Get Account info
@@ -172,7 +169,9 @@ if __name__ == '__main__':
 
     # ----- get all sms ----- #
     all_sms = PLIVO_TOOLS.get_all_sms()
-    print all_sms.next()
+
+    for sms_data in all_sms:
+        pprint(sms_data)
 
     # ----- make call ----- #
     #data = {
