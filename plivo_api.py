@@ -170,11 +170,22 @@ if __name__ == '__main__':
     # ----- get all sms ----- #
     all_sms = PLIVO_TOOLS.get_all_sms()
 
+    def convertDate(datestr):
+        return datetime.strptime(''.join(
+                datestr.rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
+
+    stop = False
     for sms_data in all_sms:
         pprint(sms_data)
         for i in sms_data:
-            print datetime.strptime(''.join(
-                    i['message_time'].rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
+            if convertDate(i['message_time']) <= datetime(2014, 3, 1):
+                stop = True
+                break
+
+            print convertDate(i['message_time'])
+
+        if stop:
+            break
 
     # ----- make call ----- #
     #data = {
