@@ -138,7 +138,7 @@ class Plivo(object):
 
 if __name__ == '__main__':
     import setting
-    #from datetime import datetime
+    from datetime import datetime
     from pprint import pprint
     #text = u'這是一封測試簡訊 This a test SMS.'*2
     #data = {
@@ -172,6 +172,9 @@ if __name__ == '__main__':
 
     for sms_data in all_sms:
         pprint(sms_data)
+        for i in sms_data:
+            print datetime.strptime(''.join(
+                    i['message_time'].rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
 
     # ----- make call ----- #
     #data = {
