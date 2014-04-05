@@ -168,24 +168,24 @@ if __name__ == '__main__':
     #pprint(PLIVO_TOOLS.get_sms('f12115e4-891b-11e3-944e-1231400195a3'))
 
     # ----- get all sms ----- #
-    all_sms = PLIVO_TOOLS.get_all_sms()
+    #all_sms = PLIVO_TOOLS.get_all_sms()
 
-    def convertDate(datestr):
-        return datetime.strptime(''.join(
-                datestr.rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
+    #def convertDate(datestr):
+    #    return datetime.strptime(''.join(
+    #            datestr.rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
 
-    stop = False
-    for sms_data in all_sms:
-        pprint(sms_data)
-        for i in sms_data:
-            if convertDate(i['message_time']) <= datetime(2014, 3, 1):
-                stop = True
-                break
+    #stop = False
+    #for sms_data in all_sms:
+    #    pprint(sms_data)
+    #    for i in sms_data:
+    #        if convertDate(i['message_time']) <= datetime(2014, 3, 1):
+    #            stop = True
+    #            break
 
-            print convertDate(i['message_time'])
+    #        print convertDate(i['message_time'])
 
-        if stop:
-            break
+    #    if stop:
+    #        break
 
     # ----- make call ----- #
     #data = {

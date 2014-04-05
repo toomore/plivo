@@ -1,13 +1,27 @@
 # -*- coding: utf-8 -*-
 import requests
 import setting
+from datetime import datetime
+from plivo_api import Plivo
 from pprint import pprint
 
-AUTH_ID = setting.auth_id
-AUTH_TOKEN = setting.auth_token
-PLIVO_MSG_URL = 'https://api.plivo.com/v1/Account/%s/Message/' % AUTH_ID
+def convertDate(datestr):
+    return datetime.strptime(''.join(
+            datestr.rsplit('+', 1)[:-1]), '%Y-%m-%d %H:%M:%S')
 
-data = requests.get(PLIVO_MSG_URL, params={'limit': 5},
-        auth=(AUTH_ID, AUTH_TOKEN))
+if __name__ == '__main__':
+    PLIVO_TOOLS = Plivo(setting.auth_id, setting.auth_token)
+    all_sms = PLIVO_TOOLS.get_all_sms()
 
-pprint(data.json())
+    stop = False
+    for sms_data in all_sms:
+        pprint(sms_data)
+        for i in sms_data:
+            if convertDate(i['message_time']) <= datetime(2014, 3, 1):
+                stop = True
+                break
+
+            print convertDate(i['message_time'])
+
+        if stop:
+            break
