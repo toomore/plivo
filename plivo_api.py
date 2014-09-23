@@ -48,19 +48,26 @@ class Plivo(object):
     def format_number(number):
         return number.strip().replace('+', '')
 
-    def _requests(self, method, endpoint, data=None, json_format=True):
+    def _requests(self, method, endpoint, data=None, json_format=True,
+            max_retries=3):
         ''' requests wraps '''
         auth = (self.auth_id, self.auth_token)
         headers = {'Connection': 'Keep-Alive'}
+
+        requests_session = requests.Session()
+        requests_session.mount(self.api_url,
+                requests.adapters.HTTPAdapter(max_retries=max_retries))
 
         if json_format:
             headers.update({'content-type': 'application/json'})
             data = json.dumps(data)
 
         if method == 'POST':
-            result = requests.post(endpoint, data=data, auth=auth, headers=headers)
+            result = requests_session.post(endpoint, data=data, auth=auth,
+                    headers=headers)
         elif method == 'GET':
-            result = requests.get(endpoint, params=data, auth=auth, headers=headers)
+            result = requests_session.get(endpoint, params=data, auth=auth,
+                    headers=headers)
         else:
             return {'error': 'No method.'}
 
@@ -137,20 +144,20 @@ class Plivo(object):
         return result
 
 if __name__ == '__main__':
-    import setting
-    from datetime import datetime
-    from pprint import pprint
+    #import setting
+    #from datetime import datetime
+    #from pprint import pprint
     #text = u'這是一封測試簡訊 This a test SMS.'*2
     #data = {
     #        'src': setting.msg_from,
     #        'dst': setting.msg_to,
     #        'text': text + str(len(text)),
-    #        'url': urljoin(setting.callback_url, 'message'),
+    #        #'url': urljoin(setting.callback_url, 'message'),
     #       }
-    PLIVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
-            to_number=setting.msg_to, source=setting.msg_from)
+    #PLIVO_TOOLS = Plivo(setting.auth_id, setting.auth_token,
+    #        to_number=setting.msg_to, source=setting.msg_from)
 
-    print PLIVO_TOOLS
+    #print PLIVO_TOOLS
 
     # ----- send sms ----- #
     #pprint(PLIVO_TOOLS.send_sms(data))
@@ -199,3 +206,4 @@ if __name__ == '__main__':
     #   }
     #make_call = PLIVO_TOOLS.make_call(data)
     #pprint(make_call) # request_uuid
+    pass
