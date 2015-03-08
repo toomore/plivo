@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"path"
 )
 
 type Plivo struct {
@@ -17,7 +18,7 @@ type Plivo struct {
 
 func (p *Plivo) send(data map[string]string) {
 	json_data, _ := json.Marshal(data)
-	a, _ := http.NewRequest("POST", fmt.Sprintf("%s/%s/Message/", p.Host, p.User), bytes.NewReader(json_data))
+	a, _ := http.NewRequest("POST", p.RenderPath("/Message/"), bytes.NewReader(json_data))
 	a.URL.User = url.UserPassword(p.User, p.Password)
 
 	header := http.Header{}
@@ -38,6 +39,12 @@ func (p *Plivo) send(data map[string]string) {
 	}
 }
 
+func (p Plivo) RenderPath(urlpath string) string {
+	URLPath, _ := url.ParseRequestURI(p.Host)
+	URLPath.Path = path.Join(URLPath.Path, p.User, urlpath, "/")
+	return fmt.Sprintf("%s/", URLPath.String())
+}
+
 func main() {
 	p := Plivo{
 		Host:     "https://api.plivo.com/v1/Account",
@@ -53,4 +60,6 @@ func main() {
 
 	fmt.Println(p)
 	p.send(data)
+
+	fmt.Println(p.RenderPath("/Message/"))
 }
