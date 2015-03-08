@@ -41,7 +41,7 @@ func (p *Plivo) send(data map[string]string) {
 
 func (p Plivo) RenderPath(urlpath string) string {
 	URLPath, _ := url.ParseRequestURI(p.Host)
-	URLPath.Path = path.Join(URLPath.Path, p.User, urlpath, "/")
+	URLPath.Path = path.Join(URLPath.Path, p.User, urlpath)
 	return fmt.Sprintf("%s/", URLPath.String())
 }
 
