@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"path"
+	"strings"
 )
 
 type Plivo struct {
@@ -42,7 +43,10 @@ func (p *Plivo) send(data map[string]string) {
 func (p Plivo) RenderPath(urlpath string) string {
 	URLPath, _ := url.ParseRequestURI(p.Host)
 	URLPath.Path = path.Join(URLPath.Path, p.User, urlpath)
-	return fmt.Sprintf("%s/", URLPath.String())
+	if strings.LastIndex(urlpath, "/") >= 0 {
+		return fmt.Sprintf("%s/", URLPath.String())
+	}
+	return URLPath.String()
 }
 
 func main() {
@@ -62,4 +66,5 @@ func main() {
 	p.send(data)
 
 	fmt.Println(p.RenderPath("/Message/"))
+	fmt.Println(p.RenderPath("/Message"))
 }
